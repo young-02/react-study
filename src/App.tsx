@@ -54,7 +54,7 @@ function App() {
         title: edit.content,
       }
     );
-    console.log(data);
+
     if (todosLists !== null) {
       setTodosLists(
         todosLists.map((it: Todo) => {
