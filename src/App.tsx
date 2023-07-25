@@ -47,6 +47,23 @@ function App() {
     }
   };
 
+  const onClickEditButton = async () => {
+    const { data } = await axios.patch(
+      `http://localhost:4001/todos/${edit.targetId}`,
+      {
+        title: edit.content,
+      }
+    );
+    console.log(data);
+    if (todosLists !== null) {
+      setTodosLists(
+        todosLists.map((it: Todo) => {
+          return it.id === edit.targetId ? data : it;
+        })
+      );
+    }
+  };
+
   useEffect(() => {
     fetchTodo();
   }, []);
@@ -103,8 +120,15 @@ function App() {
             setEdit({ ...edit, targetId: parseInt(e.target.value) });
           }}
         />
-        <input type="text" placeholder="변경할 텍스트" />
-        <button>수정</button>
+        <input
+          type="text"
+          placeholder="변경할 텍스트"
+          value={edit.content}
+          onChange={(e) => {
+            setEdit({ ...edit, content: e.target.value });
+          }}
+        />
+        <button onClick={onClickEditButton}>수정</button>
       </div>
     </div>
   );
